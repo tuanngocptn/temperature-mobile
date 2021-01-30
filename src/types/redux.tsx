@@ -1,0 +1,1 @@
+export const OVERLAY_LOADING = 'OVERLAY_LOADING'
