@@ -1,4 +1,4 @@
-import { OVERLAY_LOADING } from '../../types/redux'
+import { OVERLAY_LOADING } from "../../constants/redux"
 
 export default function (state = false, action: any) {
   switch (action.type) {

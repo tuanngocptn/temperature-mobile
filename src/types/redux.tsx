@@ -1,1 +1,8 @@
-export const OVERLAY_LOADING = 'OVERLAY_LOADING'
+export type Action = {
+	type: string,
+	params: any
+}
+
+export type AuthType = {
+  accessToken: string
+}

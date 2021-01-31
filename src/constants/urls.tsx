@@ -1,0 +1,1 @@
+export const URL_GET_TOKEN = 'https://bms-api.viatick.com/main/api/oauth2/token'
