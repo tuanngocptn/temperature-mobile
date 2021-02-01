@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Dimensions, SafeAreaView, Text, View } from 'react-native'
 import { Switch, TextInput, TouchableOpacity } from 'react-native-gesture-handler'
-import { Value } from 'react-native-reanimated'
 import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
-import { getSensorsWithIoT } from '../../api'
+import { createDevice, getSensorsWithIoT, updateDevice } from '../../api'
 import { FULL_FIELD_SENSORS } from '../../constants'
 import { OVERLAY_LOADING } from '../../constants/redux'
 import { GetSensorsType, SensorsType } from '../../types'
@@ -182,11 +181,62 @@ const Detail = (props: Props) => {
           >
             <Text style={STYLES.buttonText}>BACK</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={STYLES.button}>
+          <TouchableOpacity style={STYLES.button}
+            onPress={async () => {
+              props.setOverlayLoading(true)
+              await updateDevice({
+                deviceId: data?.deviceId ? data.deviceId : 0,
+                application: 19,
+                name: data?.name ? data.name : '',
+                model: 19,
+                serial: data?.serial ? data.serial : '',
+                mac: '',
+                region: 'Singapore',
+                longitude: 103.6602342,
+                latitude: 1.3548817,
+                floor: 0,
+                distance: 20,
+                remark: '',
+                optional: "{}",
+                active: true,
+                x: data?.x ? data.x : 0,
+                y: data?.y ? data.y : 0,
+                z: data?.z ? data.z : 0,
+                tags: []
+              })
+              props.setOverlayLoading(false)
+              props.navigation.goBack()
+            }}
+          >
             <Text style={STYLES.buttonText}>UPDATE</Text>
           </TouchableOpacity>
         </> : <>
-            <TouchableOpacity style={STYLES.button}>
+            <TouchableOpacity style={STYLES.button}
+              onPress={async () => {
+                props.setOverlayLoading(true)
+                await createDevice({
+                  application: 19,
+                  name: data?.name ? data.name : '',
+                  model: 19,
+                  serial: data?.serial ? data.serial : '',
+                  mac: '',
+                  region: 'Singapore',
+                  longitude: 103.6602342,
+                  latitude: 1.3548817,
+                  floor: 0,
+                  distance: 20,
+                  remark: '',
+                  optional: "{}",
+                  active: true,
+                  x: data?.x ? data.x : 0,
+                  y: data?.y ? data.y : 0,
+                  z: data?.z ? data.z : 0,
+                  tags: []
+                })
+                props.setOverlayLoading(false)
+                props.navigation.goBack()
+              }}
+            >
               <Text style={STYLES.buttonText}>CREATE</Text>
             </TouchableOpacity>
           </>}

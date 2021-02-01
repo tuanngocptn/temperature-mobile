@@ -17,7 +17,7 @@ export type SensorsType = {
   distance: number,
   remark: string,
   optional: string,
-  active: true,
+  active: boolean,
   date: string,
   // live: null,
   // battery: null,
@@ -54,7 +54,7 @@ export type DeviceCreateInput = {
   distance: number,
   remark: string,
   optional: String,
-  active: Boolean
+  active: Boolean,
   x: number,
   y: number,
   z: number,
@@ -75,9 +75,9 @@ export type DeviceUpdateInput = {
   distance: number,
   remark: string,
   optional: String,
-  active: Boolean
+  active: Boolean,
   x: number,
   y: number,
   z: number,
-  tags: string[]
+  tags: string[],
 }

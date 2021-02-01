@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { SafeAreaView, Text, View, TouchableOpacity, Dimensions, Modal } from 'react-native'
+import { SafeAreaView, Text, View, TouchableOpacity, Dimensions, Modal, RefreshControl } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
-import { getAccessToken, getSensorsWithIoT } from '../../api'
+import { deleteDevice, getAccessToken, getSensorsWithIoT } from '../../api'
 import { HOME_FIELD_SENSORS } from '../../constants'
 import { AUTH, OVERLAY_LOADING } from '../../constants/redux'
 import { SCREEN_DETAIL } from '../../navigation/screens'
@@ -11,7 +11,8 @@ import { GetSensorsType, SensorsType } from '../../types'
 import { AuthType } from '../../types/redux'
 import { STYLES } from '../common/styles'
 
-const windowWidth = Dimensions.get('window').width;
+const windowWidth = Dimensions.get('window').width
+const windowHeight = Dimensions.get('window').height
 
 type Props = {
   navigation?: any
@@ -22,20 +23,32 @@ type Props = {
 }
 
 const Home = (props: Props) => {
-  const [data, setData] = useState<SensorsType[]>([]);
-  const [modalVisible, setModalVisible] = useState(false);
+  const [deleteDeviceId, setDeleteDeviceId] = useState<number>(0)
+  const [data, setData] = useState<SensorsType[]>([])
+  const [modalVisible, setModalVisible] = useState(false)
+  const [refreshing, setRefreshing] = React.useState(false)
+  const onRefresh = React.useCallback(async () => {
+    setRefreshing(true)
+    await reloadData()
+    setRefreshing(false)
+  }, [])
+
+  const reloadData = async () => {
+    props.auth(await getAccessToken())
+    const req: GetSensorsType = {
+      deviceId: '',
+      name: '',
+      serial: '',
+      fields: HOME_FIELD_SENSORS
+    }
+    setData(await getSensorsWithIoT(req))
+  }
 
   useEffect(() => {
     props.setOverlayLoading(true)
     const init = async () => {
       props.auth(await getAccessToken())
-      const req: GetSensorsType = {
-        deviceId: '',
-        name: '',
-        serial: '',
-        fields: HOME_FIELD_SENSORS
-      }
-      setData(await getSensorsWithIoT(req))
+      await reloadData()
       props.setOverlayLoading(false)
     }
     init()
@@ -53,7 +66,12 @@ const Home = (props: Props) => {
               <Text style={STYLES.buttonText}>Create</Text>
             </TouchableOpacity>
           </View>
-          <ScrollView showsVerticalScrollIndicator={false}>
+          <ScrollView showsVerticalScrollIndicator={false}
+            style={{ height: windowHeight - 200 }}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+          >
             <View style={STYLES.homePanelArea}>
               {data.map(
                 (item, index) => <View key={index} style={index % 2 === 0 ? STYLES.panel50Left : STYLES.panel50Right}>
@@ -62,7 +80,8 @@ const Home = (props: Props) => {
                       <Text>{item.name}</Text>
                       <TouchableOpacity style={STYLES.closeIcon}
                         onPress={() => {
-                          setModalVisible(true);
+                          setDeleteDeviceId(item.deviceId)
+                          setModalVisible(true)
                         }}
                       >
                         <Text>x</Text>
@@ -100,7 +119,7 @@ const Home = (props: Props) => {
       >
         <TouchableOpacity style={STYLES.centeredView}
           onPress={() => {
-            setModalVisible(!modalVisible);
+            setModalVisible(!modalVisible)
           }}
         >
           <View style={[STYLES.panelContainer, { padding: 20 }]}>
@@ -108,8 +127,13 @@ const Home = (props: Props) => {
             <View style={STYLES.modalBody}>
               <TouchableOpacity
                 style={STYLES.button}
-                onPress={() => {
-                  setModalVisible(!modalVisible);
+                onPress={async () => {
+                  setModalVisible(!modalVisible)
+                  props.setOverlayLoading(true)
+                  console.log(deleteDeviceId)
+                  await deleteDevice(deleteDeviceId)
+                  await reloadData()
+                  props.setOverlayLoading(false)
                 }}
               >
                 <Text style={STYLES.buttonText}>Yes</Text>
@@ -117,7 +141,7 @@ const Home = (props: Props) => {
               <TouchableOpacity
                 style={STYLES.button}
                 onPress={() => {
-                  setModalVisible(!modalVisible);
+                  setModalVisible(!modalVisible)
                 }}
               >
                 <Text style={STYLES.buttonText}>No</Text>
