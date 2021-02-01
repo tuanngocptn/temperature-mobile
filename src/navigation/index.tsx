@@ -9,8 +9,9 @@ import { OVERLAY_LOADING } from '../constants/redux'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { SCREEN_HOME } from './screens'
+import {SCREEN_DETAIL, SCREEN_HOME } from './screens'
 import home from '../screens/home'
+import detail from '../screens/detail'
 
 const RootStack = createStackNavigator()
 const ModalStack = createStackNavigator()
@@ -27,12 +28,11 @@ const Navigation = (props: Props) => {
   return (
     <NavigationContainer>
       <StatusBar barStyle='dark-content' translucent />
-      <RootStack.Navigator
-        mode="modal"
+      <ModalStack.Navigator
         screenOptions={STACK_STYLE}
       >
         {modalScreen()}
-      </RootStack.Navigator>
+      </ModalStack.Navigator>
       {props.isLoading &&
         <View style={STYLES.loading}>
           <ActivityIndicator size='large' color={COLORS.PRIMARY_BLACK} />
@@ -44,12 +44,15 @@ const Navigation = (props: Props) => {
 
 const modalScreen = () => {
   return <>
-    <RootStack.Screen name={SCREEN_HOME} component={home} options={{ title: 'List of sensors' }} />
+    <ModalStack.Screen name={SCREEN_HOME} component={home} options={{ title: 'List of sensors' }} />
+    {/* @ts-ignore */}
+    <ModalStack.Screen name={SCREEN_DETAIL} component={detail} options={({ route }) => ({ title: route?.params?.title })} />
   </>
 }
 
 const STACK_STYLE = {
   headerBackTitleVisible: false,
+  headerTintColor: COLORS.PRIMARY_BLACK,
   headerStyle: {
     backgroundColor: COLORS.PRIMARY_WHITE,
     borderBottomColor: COLORS.PRIMARY_WHITE,

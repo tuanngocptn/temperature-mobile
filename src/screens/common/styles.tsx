@@ -67,7 +67,10 @@ export const STYLES = StyleSheet.create({
     borderRadius: 5,
     padding: 5,
     borderWidth: 1,
-    backgroundColor: COLORS.PRIMARY_WHITE
+    backgroundColor: COLORS.SECONDARY_BLACK
+  },
+  buttonText: {
+    color: COLORS.PRIMARY_WHITE
   },
   centeredView: {
     flex: 1,
@@ -81,5 +84,18 @@ export const STYLES = StyleSheet.create({
     justifyContent: 'space-between',
     marginTop: 20,
     paddingHorizontal: 10
+  },
+  textInput: {
+  },
+  textInputContainer:{
+    borderWidth: 1,
+    padding: 5,
+    borderRadius: 5,
+    borderColor: COLORS.PRIMARY_BLACK,
+    backgroundColor: COLORS.PRIMARY_WHITE
+  },
+  detailText:{
+    fontWeight: 'bold',
+    paddingVertical: 10
   }
 })

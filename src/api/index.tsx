@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig } from 'axios'
 import { SCOPE } from '../config'
 import { FULL_FIELD_SENSORS } from '../constants'
 import { URL_GET_TOKEN } from '../constants/urls'
-import { GetSensorsType, SensorsType } from '../types'
+import { DeviceCreateInput, GetSensorsType, SensorsType } from '../types'
 
 export const getAccessToken = async () => {
   const header = {
@@ -28,6 +28,19 @@ export const getSensorsWithIoT = async (props: GetSensorsType): Promise<SensorsT
   }
   var data = JSON.stringify({
     query: `{ getSensorsWithIoT${search}{ ${props.fields} } }`,
+    variables: {}
+  });
+  const config: AxiosRequestConfig = {
+    method: 'post',
+    data: data
+  }
+  let result = await axios(config)
+  return result.data.data.getSensorsWithIoT
+}
+
+export const updateDevice = async (item: DeviceCreateInput): Promise<boolean> => {
+  var data = JSON.stringify({
+    query: `{ updateDevice${JSON.stringify(item)} }`,
     variables: {}
   });
   const config: AxiosRequestConfig = {

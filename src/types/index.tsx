@@ -1,6 +1,7 @@
 export type GetSensorsType = {
   name: string,
   serial: string,
+  deviceId: string,
   fields: string
 }
 
@@ -38,4 +39,45 @@ export type SensorsType = {
   // network: null,
   // frequency: null,
   // server: null
+}
+
+export type DeviceCreateInput = {
+  application: number,
+  name: string,
+  model: number,
+  serial: string,
+  mac: string,
+  region: string,
+  longitude: number,
+  latitude: number,
+  floor: number,
+  distance: number,
+  remark: string,
+  optional: String,
+  active: Boolean
+  x: number,
+  y: number,
+  z: number,
+  tags: string[]
+}
+
+export type DeviceUpdateInput = {
+  deviceId: number,
+  application: number,
+  name: string,
+  model: number,
+  serial: string,
+  mac: string,
+  region: string,
+  longitude: number,
+  latitude: number,
+  floor: number,
+  distance: number,
+  remark: string,
+  optional: String,
+  active: Boolean
+  x: number,
+  y: number,
+  z: number,
+  tags: string[]
 }

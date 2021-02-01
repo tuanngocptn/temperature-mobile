@@ -6,6 +6,7 @@ export const COLORS = {
   PRIMARY_BLACK: '#000000',
 
   // secondary colors
+  SECONDARY_BLACK: '#6E8CA0',
 
   // TYPOGRAPHY COLOR
 

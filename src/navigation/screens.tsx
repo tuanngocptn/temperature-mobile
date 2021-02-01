@@ -1,1 +1,2 @@
 export const SCREEN_HOME = 'SCREEN_HOME'
+export const SCREEN_DETAIL = 'SCREEN_DETAIL'

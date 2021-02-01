@@ -6,6 +6,7 @@ import { Dispatch } from 'redux'
 import { getAccessToken, getSensorsWithIoT } from '../../api'
 import { HOME_FIELD_SENSORS } from '../../constants'
 import { AUTH, OVERLAY_LOADING } from '../../constants/redux'
+import { SCREEN_DETAIL } from '../../navigation/screens'
 import { GetSensorsType, SensorsType } from '../../types'
 import { AuthType } from '../../types/redux'
 import { STYLES } from '../common/styles'
@@ -28,12 +29,13 @@ const Home = (props: Props) => {
     props.setOverlayLoading(true)
     const init = async () => {
       props.auth(await getAccessToken())
-      const sensorsType: GetSensorsType = {
+      const req: GetSensorsType = {
+        deviceId: '',
         name: '',
         serial: '',
         fields: HOME_FIELD_SENSORS
       }
-      setData(await getSensorsWithIoT(sensorsType))
+      setData(await getSensorsWithIoT(req))
       props.setOverlayLoading(false)
     }
     init()
@@ -43,8 +45,12 @@ const Home = (props: Props) => {
       <SafeAreaView style={STYLES.supperContainer}>
         <View style={STYLES.container}>
           <View style={{ width: windowWidth - 40, flexDirection: 'row', justifyContent: 'flex-end', paddingTop: 20 }}>
-            <TouchableOpacity style={STYLES.button}>
-              <Text>Create</Text>
+            <TouchableOpacity style={STYLES.button}
+              onPress={() => {
+                props.navigation.navigate(SCREEN_DETAIL, { deviceId: '', title: 'Create sensor' })
+              }}
+            >
+              <Text style={STYLES.buttonText}>Create</Text>
             </TouchableOpacity>
           </View>
           <ScrollView showsVerticalScrollIndicator={false}>
@@ -64,7 +70,7 @@ const Home = (props: Props) => {
                     </View>
                     <TouchableOpacity
                       onPress={() => {
-                        console.log(item.deviceId)
+                        props.navigation.navigate(SCREEN_DETAIL, { deviceId: item.deviceId, title: 'Sensor detail' })
                       }}
                     >
                       <View style={STYLES.panelRow}>
@@ -106,7 +112,7 @@ const Home = (props: Props) => {
                   setModalVisible(!modalVisible);
                 }}
               >
-                <Text>Yes</Text>
+                <Text style={STYLES.buttonText}>Yes</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={STYLES.button}
@@ -114,7 +120,7 @@ const Home = (props: Props) => {
                   setModalVisible(!modalVisible);
                 }}
               >
-                <Text>No</Text>
+                <Text style={STYLES.buttonText}>No</Text>
               </TouchableOpacity>
             </View>
           </View>
