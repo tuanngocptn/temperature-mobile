@@ -53,6 +53,12 @@ const Home = (props: Props) => {
     }
     init()
   }, [])
+
+  const doGoBack = async () => {
+    props.setOverlayLoading(true)
+    await reloadData()
+    props.setOverlayLoading(false)
+  }
   return (
     <>
       <SafeAreaView style={STYLES.supperContainer}>
@@ -60,7 +66,7 @@ const Home = (props: Props) => {
           <View style={{ width: windowWidth - 40, flexDirection: 'row', justifyContent: 'flex-end', paddingTop: 20 }}>
             <TouchableOpacity style={STYLES.button}
               onPress={() => {
-                props.navigation.navigate(SCREEN_DETAIL, { deviceId: '', title: 'Create sensor' })
+                props.navigation.navigate(SCREEN_DETAIL, { deviceId: '', title: 'Create sensor', doGoBack: () => { doGoBack() } })
               }}
             >
               <Text style={STYLES.buttonText}>Create</Text>
@@ -89,7 +95,7 @@ const Home = (props: Props) => {
                     </View>
                     <TouchableOpacity
                       onPress={() => {
-                        props.navigation.navigate(SCREEN_DETAIL, { deviceId: item.deviceId, title: 'Sensor detail' })
+                        props.navigation.navigate(SCREEN_DETAIL, { deviceId: item.deviceId, title: 'Sensor detail', doGoBack: () => { doGoBack() } })
                       }}
                     >
                       <View style={STYLES.panelRow}>

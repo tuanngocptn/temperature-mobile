@@ -206,6 +206,7 @@ const Detail = (props: Props) => {
               })
               props.setOverlayLoading(false)
               props.navigation.goBack()
+              props.route.params.doGoBack()
             }}
           >
             <Text style={STYLES.buttonText}>UPDATE</Text>
@@ -235,6 +236,7 @@ const Detail = (props: Props) => {
                 })
                 props.setOverlayLoading(false)
                 props.navigation.goBack()
+                props.route.params.doGoBack()
               }}
             >
               <Text style={STYLES.buttonText}>CREATE</Text>
