@@ -26,12 +26,12 @@ const axiosConfig = () => {
     delete _response.data
     delete _response.debug
     if (![200, 201].includes(_response.status)) {
-      showToast(`${_response.status}: ${_response.msg}`)
+      // showToast(`${_response.status}: ${_response.msg}`)
     }
     // console.log('RES:', JSON.stringify(_response, null, 2).replace(/\n|\r|\s/g, ''))
     return response
   }, error => {
-    showToast(formatErrorText(error))
+    // showToast(formatErrorText(error))
     console.log(formatErrorText(error))
     return Promise.reject(error)
   })

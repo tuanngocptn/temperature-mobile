@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { SafeAreaView, Text, View } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import { SafeAreaView, Text, View, TouchableOpacity, Dimensions, Modal } from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler'
 import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
 import { getAccessToken, getSensorsWithIoT } from '../../api'
@@ -9,6 +9,8 @@ import { AUTH, OVERLAY_LOADING } from '../../constants/redux'
 import { GetSensorsType, SensorsType } from '../../types'
 import { AuthType } from '../../types/redux'
 import { STYLES } from '../common/styles'
+
+const windowWidth = Dimensions.get('window').width;
 
 type Props = {
   navigation?: any
@@ -20,6 +22,8 @@ type Props = {
 
 const Home = (props: Props) => {
   const [data, setData] = useState<SensorsType[]>([]);
+  const [modalVisible, setModalVisible] = useState(false);
+
   useEffect(() => {
     props.setOverlayLoading(true)
     const init = async () => {
@@ -35,33 +39,88 @@ const Home = (props: Props) => {
     init()
   }, [])
   return (
-    <SafeAreaView style={STYLES.supperContainer}>
-      <View style={STYLES.container}>
-        <View style={STYLES.homePanelArea}>
-          {data.map(
-            (item, index) => <View key={index} style={index % 2 === 0 ? STYLES.panel50Left : STYLES.panel50Right}>
-              <View style={STYLES.panelContainer}>
-                <View style={STYLES.panelRow}>
-                  <Text style={STYLES.panelHeader}>Device ID:</Text>
-                  <Text>{item.deviceId}</Text>
-                </View>
-                <View style={STYLES.panelRow}>
-                  <Text style={STYLES.panelHeader}>Name:</Text>
-                  <Text>{item.name}</Text>
-                </View>
-                <View style={STYLES.panelRow}>
-                  <Text style={STYLES.panelHeader}>Region:</Text>
-                  <Text>{item.region}</Text>
-                </View>
-                <View style={STYLES.panelRow}>
-                  <Text style={STYLES.panelHeader}>Serial:</Text>
-                  <Text>{item.serial}</Text>
-                </View>
-              </View>
-            </View>)}
+    <>
+      <SafeAreaView style={STYLES.supperContainer}>
+        <View style={STYLES.container}>
+          <View style={{ width: windowWidth - 40, flexDirection: 'row', justifyContent: 'flex-end', paddingTop: 20 }}>
+            <TouchableOpacity style={STYLES.button}>
+              <Text>Create</Text>
+            </TouchableOpacity>
+          </View>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <View style={STYLES.homePanelArea}>
+              {data.map(
+                (item, index) => <View key={index} style={index % 2 === 0 ? STYLES.panel50Left : STYLES.panel50Right}>
+                  <View style={STYLES.panelContainer}>
+                    <View style={STYLES.panelTop}>
+                      <Text>{item.name}</Text>
+                      <TouchableOpacity style={STYLES.closeIcon}
+                        onPress={() => {
+                          setModalVisible(true);
+                        }}
+                      >
+                        <Text>x</Text>
+                      </TouchableOpacity>
+                    </View>
+                    <TouchableOpacity
+                      onPress={() => {
+                        console.log(item.deviceId)
+                      }}
+                    >
+                      <View style={STYLES.panelRow}>
+                        <Text style={STYLES.panelHeader}>Device ID:</Text>
+                        <Text>{item.deviceId}</Text>
+                      </View>
+                      <View style={STYLES.panelRow}>
+                        <Text style={STYLES.panelHeader}>Region:</Text>
+                        <Text>{item.region}</Text>
+                      </View>
+                      <View style={STYLES.panelRow}>
+                        <Text style={STYLES.panelHeader}>Serial:</Text>
+                        <Text>{item.serial}</Text>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+                </View>)}
+            </View>
+          </ScrollView>
         </View>
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
+      <Modal
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+        }}
+      >
+        <TouchableOpacity style={STYLES.centeredView}
+          onPress={() => {
+            setModalVisible(!modalVisible);
+          }}
+        >
+          <View style={[STYLES.panelContainer, { padding: 20 }]}>
+            <Text style={STYLES.panelHeader}>Are you sure remove</Text>
+            <View style={STYLES.modalBody}>
+              <TouchableOpacity
+                style={STYLES.button}
+                onPress={() => {
+                  setModalVisible(!modalVisible);
+                }}
+              >
+                <Text>Yes</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={STYLES.button}
+                onPress={() => {
+                  setModalVisible(!modalVisible);
+                }}
+              >
+                <Text>No</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </TouchableOpacity>
+      </Modal>
+    </>
   )
 }
 
