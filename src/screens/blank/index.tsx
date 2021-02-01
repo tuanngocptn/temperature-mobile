@@ -3,7 +3,7 @@ import { SafeAreaView, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
-import { OVERLAY_LOADING } from '../../types/redux'
+import { OVERLAY_LOADING } from '../../constants/redux'
 import { STYLES } from '../common/styles'
 
 type Props = {
@@ -14,7 +14,6 @@ type Props = {
 }
 
 const Blank = (props: Props) => {
-  console.log(props.isLoading)
   return (
     <SafeAreaView style={STYLES.container}>
       <TouchableOpacity onPress={()=>{

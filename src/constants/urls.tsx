@@ -1,0 +1,2 @@
+export const GRAPHQL_SERVER_URL = "https://aitjmbzhsbagnbysj2jrinbrsq.appsync-api.ap-northeast-1.amazonaws.com/graphql";
+export const URL_GET_TOKEN = 'https://bms-api.viatick.com/main/api/oauth2/token'

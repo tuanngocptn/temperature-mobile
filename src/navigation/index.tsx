@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
 import { COLORS } from '../screens/common/colors'
 import { STYLES } from '../screens/common/styles'
-import { OVERLAY_LOADING } from '../types/redux'
+import { OVERLAY_LOADING } from '../constants/redux'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
@@ -44,7 +44,7 @@ const Navigation = (props: Props) => {
 
 const modalScreen = () => {
   return <>
-    <RootStack.Screen name={SCREEN_HOME} component={home} options={{ title: 'Home' }} />
+    <RootStack.Screen name={SCREEN_HOME} component={home} options={{ title: 'List of sensors' }} />
   </>
 }
 

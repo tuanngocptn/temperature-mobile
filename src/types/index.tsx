@@ -1,0 +1,41 @@
+export type GetSensorsType = {
+  name: string,
+  serial: string,
+  fields: string
+}
+
+export type SensorsType = {
+  deviceId: number,
+  name: string,
+  serial: string,
+  // mac: null,
+  region: string,
+  longitude: number,
+  latitude: number,
+  floor: number,
+  distance: number,
+  remark: string,
+  optional: string,
+  active: true,
+  date: string,
+  // live: null,
+  // battery: null,
+  // humidity: null,
+  // temperature: null,
+  // height: null,
+  // maxHeight: null,
+  x: number,
+  y: number,
+  z: number,
+  // tags: null,
+  // deploymentDate: null,
+  // compositionData: null,
+  // unicastAddr: null,
+  // meshStatus: null,
+  // status: null,
+  // error: null,
+  // lockStatus: null,
+  // network: null,
+  // frequency: null,
+  // server: null
+}
