@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Dimensions, SafeAreaView, Text, View } from 'react-native'
 import { Switch, TextInput, TouchableOpacity } from 'react-native-gesture-handler'
+import { Value } from 'react-native-reanimated'
 import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
 import { getSensorsWithIoT } from '../../api'
@@ -48,39 +49,60 @@ const Detail = (props: Props) => {
         <View style={{ width: windowWidth / 2 - 25, marginRight: 5 }}>
           <Text style={STYLES.detailText}>Device ID:</Text>
           <View style={STYLES.textInputContainer}>
-            <TextInput editable={false} style={STYLES.textInput} value={data?.deviceId.toString()} />
+            <TextInput editable={false} style={STYLES.textInput} value={data?.deviceId?.toString()} />
           </View>
         </View>
         <View style={{ width: windowWidth / 2 - 25, marginLeft: 5 }}>
           <Text style={STYLES.detailText}>Serial:</Text>
           <View style={STYLES.textInputContainer}>
-            <TextInput style={STYLES.textInput} value={data?.serial} />
+            <TextInput style={STYLES.textInput} value={data?.serial}
+              onChangeText={value => {
+                //@ts-ignore
+                setData({ ...data, serial: value })
+              }}
+            />
           </View>
         </View>
       </View>
       <View>
         <Text style={STYLES.detailText}>Region:</Text>
         <View style={STYLES.textInputContainer}>
-          <TextInput editable={false} style={STYLES.textInput} value={data?.region} />
+          <TextInput style={STYLES.textInput} value={data?.region}
+            onChangeText={value => {
+              //@ts-ignore
+              setData({ ...data, region: value })
+            }} />
         </View>
       </View>
       <View>
         <Text style={STYLES.detailText}>Device name:</Text>
         <View style={STYLES.textInputContainer}>
-          <TextInput editable={false} style={STYLES.textInput} value={data?.name} />
+          <TextInput style={STYLES.textInput} value={data?.name}
+            onChangeText={value => {
+              //@ts-ignore
+              setData({ ...data, name: value })
+            }} />
         </View>
       </View>
       <View style={{ flexDirection: 'row' }}>
         <View style={{ width: windowWidth / 2 - 25, marginRight: 5 }}>
           <Text style={STYLES.detailText}>Latitude:</Text>
           <View style={STYLES.textInputContainer}>
-            <TextInput editable={false} style={STYLES.textInput} value={data?.latitude.toString()} />
+            <TextInput keyboardType='decimal-pad' style={STYLES.textInput} value={data?.latitude?.toString()}
+              onChangeText={value => {
+                //@ts-ignore
+                setData({ ...data, latitude: parseFloat(value) })
+              }} />
           </View>
         </View>
         <View style={{ width: windowWidth / 2 - 25, marginLeft: 5 }}>
           <Text style={STYLES.detailText}>Longitude:</Text>
           <View style={STYLES.textInputContainer}>
-            <TextInput style={STYLES.textInput} value={data?.longitude.toString()} />
+            <TextInput keyboardType='decimal-pad' style={STYLES.textInput} value={data?.longitude?.toString()}
+              onChangeText={value => {
+                //@ts-ignore
+                setData({ ...data, longitude: parseFloat(value) })
+              }} />
           </View>
         </View>
       </View>
@@ -88,19 +110,31 @@ const Detail = (props: Props) => {
         <View style={{ width: windowWidth / 3 - 25, marginRight: 5 }}>
           <Text style={STYLES.detailText}>X:</Text>
           <View style={STYLES.textInputContainer}>
-            <TextInput style={STYLES.textInput} value={data?.x.toString()} />
+            <TextInput keyboardType='decimal-pad' style={STYLES.textInput} value={data?.x?.toString()}
+              onChangeText={value => {
+                //@ts-ignore
+                setData({ ...data, x: parseFloat(value) })
+              }} />
           </View>
         </View>
         <View style={{ width: windowWidth / 3 - 10, marginHorizontal: 5 }}>
           <Text style={STYLES.detailText}>Y:</Text>
           <View style={STYLES.textInputContainer}>
-            <TextInput style={STYLES.textInput} value={data?.y.toString()} />
+            <TextInput keyboardType='decimal-pad' style={STYLES.textInput} value={data?.y?.toString()}
+              onChangeText={value => {
+                //@ts-ignore
+                setData({ ...data, y: parseFloat(value) })
+              }} />
           </View>
         </View>
         <View style={{ width: windowWidth / 3 - 25, marginLeft: 5 }}>
           <Text style={STYLES.detailText}>Z:</Text>
           <View style={STYLES.textInputContainer}>
-            <TextInput style={STYLES.textInput} value={data?.z.toString()} />
+            <TextInput keyboardType='decimal-pad' style={STYLES.textInput} value={data?.z?.toString()}
+              onChangeText={value => {
+                //@ts-ignore
+                setData({ ...data, z: parseFloat(value) })
+              }} />
           </View>
         </View>
       </View>
@@ -108,13 +142,21 @@ const Detail = (props: Props) => {
         <View style={{ width: windowWidth / 3 - 25, marginRight: 5 }}>
           <Text style={STYLES.detailText}>Distance:</Text>
           <View style={STYLES.textInputContainer}>
-            <TextInput style={STYLES.textInput} value={data?.distance.toString()} />
+            <TextInput keyboardType='decimal-pad' style={STYLES.textInput} value={data?.distance?.toString()}
+              onChangeText={value => {
+                //@ts-ignore
+                setData({ ...data, distance: parseFloat(value) })
+              }} />
           </View>
         </View>
         <View style={{ width: windowWidth / 3 - 10, marginHorizontal: 5 }}>
           <Text style={STYLES.detailText}>Floor:</Text>
           <View style={STYLES.textInputContainer}>
-            <TextInput style={STYLES.textInput} value={data?.floor.toString()} />
+            <TextInput keyboardType='decimal-pad' style={STYLES.textInput} value={data?.floor?.toString()}
+              onChangeText={value => {
+                //@ts-ignore
+                setData({ ...data, floor: parseFloat(value) })
+              }} />
           </View>
         </View>
         <View style={{ width: windowWidth / 3 - 25, marginLeft: 5 }}>
@@ -124,8 +166,9 @@ const Detail = (props: Props) => {
               trackColor={{ false: COLORS.SECONDARY_BLACK, true: COLORS.SECONDARY_BLACK }}
               thumbColor={"#f4f3f4"}
               ios_backgroundColor={COLORS.SECONDARY_BLACK}
-              onValueChange={() => { }}
-              value={data?.active.toString() === 'true'}
+              //@ts-ignore
+              onValueChange={value => setData({ ...data, active: value })}
+              value={data?.active?.toString() === 'true'}
             />
           </View>
         </View>
