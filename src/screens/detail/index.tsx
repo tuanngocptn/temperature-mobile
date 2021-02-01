@@ -132,7 +132,11 @@ const Detail = (props: Props) => {
       </View>
       <View style={{ flexDirection: 'row', marginTop: 40, justifyContent: 'space-around' }}>
         {props?.route?.params?.deviceId ? <>
-          <TouchableOpacity style={STYLES.button}>
+          <TouchableOpacity style={STYLES.button}
+            onPress={() => {
+              props.navigation.goBack()
+            }}
+          >
             <Text style={STYLES.buttonText}>BACK</Text>
           </TouchableOpacity>
           <TouchableOpacity style={STYLES.button}>
