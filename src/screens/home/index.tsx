@@ -130,7 +130,6 @@ const Home = (props: Props) => {
                 onPress={async () => {
                   setModalVisible(!modalVisible)
                   props.setOverlayLoading(true)
-                  console.log(deleteDeviceId)
                   await deleteDevice(deleteDeviceId)
                   await reloadData()
                   props.setOverlayLoading(false)
