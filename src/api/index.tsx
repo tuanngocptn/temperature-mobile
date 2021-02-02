@@ -3,6 +3,7 @@ import { SCOPE } from '../config'
 import { FULL_FIELD_SENSORS } from '../constants'
 import { URL_GET_TOKEN } from '../constants/urls'
 import { DeviceCreateInput, DeviceUpdateInput, GetSensorsType, SensorsType } from '../types'
+import { parserQuery } from '../utils'
 
 export const getAccessToken = async () => {
   const header = {
@@ -39,15 +40,6 @@ export const getSensorsWithIoT = async (props: GetSensorsType): Promise<SensorsT
 }
 
 export const createDevice = async (item: DeviceCreateInput): Promise<boolean> => {
-  // var data = JSON.stringify({
-  //   query: `{ updateDevice${JSON.stringify(item)} }`,
-  //   variables: {}
-  // });
-  // const config: AxiosRequestConfig = {
-  //   method: 'post',
-  //   data: data
-  // }
-  // let result = await axios(config)
   return true
 }
 
@@ -71,29 +63,23 @@ export const updateDevice = async (item: DeviceUpdateInput): Promise<boolean> =>
   return true
 }
 
-const parserQuery = (obj: any) => {
-  if (typeof obj === 'number') {
-    return obj;
-  }
-  if (typeof obj !== 'object' || Array.isArray(obj)) {
-    return JSON.stringify(obj);
-  }
-  let props: any = Object.keys(obj).map(key =>
-    `${key}:${parserQuery(obj[key])}`
-  ).join(',');
-  return `{${props}}`;
-}
-
 export const deleteDevice = async (deviceId: number): Promise<boolean> => {
-  // var data = JSON.stringify({
-  //   query: `{ updateDevice${JSON.stringify(deviceId)} }`,
-  //   variables: {}
-  // });
-  // const config: AxiosRequestConfig = {
-  //   method: 'post',
-  //   data: data
-  // }
-  // let result = await axios(config)
+  var data = JSON.stringify({
+    query: `mutation {
+      deleteDevices(
+          type: "sensor"
+          deviceIds: [${deviceId}]
+      ){
+          rows_deleted
+      }
+  }`,
+    variables: {}
+  });
+  const config: AxiosRequestConfig = {
+    method: 'post',
+    data: data
+  }
+  let result = await axios(config)
   return true
 }
 

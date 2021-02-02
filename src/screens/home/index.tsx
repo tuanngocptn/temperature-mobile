@@ -36,7 +36,7 @@ const Home = (props: Props) => {
   const reloadData = async () => {
     props.auth(await getAccessToken())
     const req: GetSensorsType = {
-      deviceId: '',
+      deviceId: 0,
       name: '',
       serial: '',
       fields: HOME_FIELD_SENSORS
