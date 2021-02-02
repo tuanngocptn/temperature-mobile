@@ -58,7 +58,6 @@ export const updateDevice = async (item: DeviceUpdateInput): Promise<boolean> =>
     method: 'post',
     data: data
   }
-  console.log(data)
   let result = await axios(config)
   return true
 }
