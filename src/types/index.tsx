@@ -1,7 +1,7 @@
 export type GetSensorsType = {
   name: string,
   serial: string,
-  deviceId: string,
+  deviceId: number,
   fields: string
 }
 
@@ -42,7 +42,6 @@ export type SensorsType = {
 }
 
 export type DeviceCreateInput = {
-  application: number,
   name: string,
   model: number,
   serial: string,
@@ -63,7 +62,6 @@ export type DeviceCreateInput = {
 
 export type DeviceUpdateInput = {
   deviceId: number,
-  application: number,
   name: string,
   model: number,
   serial: string,

@@ -52,16 +52,36 @@ export const createDevice = async (item: DeviceCreateInput): Promise<boolean> =>
 }
 
 export const updateDevice = async (item: DeviceUpdateInput): Promise<boolean> => {
-  // var data = JSON.stringify({
-  //   query: `{ updateDevice${JSON.stringify(item)} }`,
-  //   variables: {}
-  // });
-  // const config: AxiosRequestConfig = {
-  //   method: 'post',
-  //   data: data
-  // }
-  // let result = await axios(config)
+  var data = JSON.stringify({
+    query: `mutation {
+        updateDevice(
+            input:${parserQuery(item)}
+        ){
+            deviceId
+        }
+    }`,
+    variables: {}
+  });
+  const config: AxiosRequestConfig = {
+    method: 'post',
+    data: data
+  }
+  console.log(data)
+  let result = await axios(config)
   return true
+}
+
+const parserQuery = (obj: any) => {
+  if (typeof obj === 'number') {
+    return obj;
+  }
+  if (typeof obj !== 'object' || Array.isArray(obj)) {
+    return JSON.stringify(obj);
+  }
+  let props: any = Object.keys(obj).map(key =>
+    `${key}:${parserQuery(obj[key])}`
+  ).join(',');
+  return `{${props}}`;
 }
 
 export const deleteDevice = async (deviceId: number): Promise<boolean> => {

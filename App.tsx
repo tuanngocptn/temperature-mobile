@@ -4,7 +4,12 @@ import Navigation from './src/navigation'
 import store from './src/redux/stores'
 import axios from 'axios'
 import { showToast } from './src/utils/toast'
+import { LogBox } from 'react-native'
 declare const global: { HermesInternal: null | {} }
+
+LogBox.ignoreLogs([
+  'Non-serializable values were found in the navigation state',
+]);
 
 const App = () => {
   axiosConfig()

@@ -37,6 +37,7 @@ export const STYLES = StyleSheet.create({
     borderRadius: 5
   },
   homePanelArea: {
+    flexWrap: 'wrap',
     paddingVertical: 15,
     flexDirection: 'row'
   },
@@ -87,14 +88,14 @@ export const STYLES = StyleSheet.create({
   },
   textInput: {
   },
-  textInputContainer:{
+  textInputContainer: {
     borderWidth: 1,
     padding: 5,
     borderRadius: 5,
     borderColor: COLORS.PRIMARY_BLACK,
     backgroundColor: COLORS.PRIMARY_WHITE
   },
-  detailText:{
+  detailText: {
     fontWeight: 'bold',
     paddingVertical: 10
   }

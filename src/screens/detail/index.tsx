@@ -19,8 +19,26 @@ type Props = {
   setOverlayLoading: (boo: boolean) => void
 }
 
+const initSensor = {
+  deviceId: 0,
+  name: '',
+  serial: '',
+  region: '',
+  longitude: 0,
+  latitude: 0,
+  floor: 0,
+  distance: 0,
+  remark: '',
+  optional: '',
+  active: false,
+  date: '',
+  x: 0,
+  y: 0,
+  z: 0,
+}
+
 const Detail = (props: Props) => {
-  const [data, setData] = useState<SensorsType>()
+  const [data, setData] = useState<SensorsType>(initSensor)
   useEffect(() => {
     props.setOverlayLoading(true)
     const init = async () => {
@@ -89,8 +107,7 @@ const Detail = (props: Props) => {
           <View style={STYLES.textInputContainer}>
             <TextInput keyboardType='decimal-pad' style={STYLES.textInput} value={data?.latitude?.toString()}
               onChangeText={value => {
-                //@ts-ignore
-                setData({ ...data, latitude: parseFloat(value) })
+                setData({ ...data, latitude: value.length > 0 ? parseFloat(value) : 0 })
               }} />
           </View>
         </View>
@@ -99,8 +116,7 @@ const Detail = (props: Props) => {
           <View style={STYLES.textInputContainer}>
             <TextInput keyboardType='decimal-pad' style={STYLES.textInput} value={data?.longitude?.toString()}
               onChangeText={value => {
-                //@ts-ignore
-                setData({ ...data, longitude: parseFloat(value) })
+                setData({ ...data, longitude: value.length > 0 ? parseFloat(value) : 0 })
               }} />
           </View>
         </View>
@@ -111,8 +127,7 @@ const Detail = (props: Props) => {
           <View style={STYLES.textInputContainer}>
             <TextInput keyboardType='decimal-pad' style={STYLES.textInput} value={data?.x?.toString()}
               onChangeText={value => {
-                //@ts-ignore
-                setData({ ...data, x: parseFloat(value) })
+                setData({ ...data, x: value.length > 0 ? parseInt(value) : 0 })
               }} />
           </View>
         </View>
@@ -121,8 +136,7 @@ const Detail = (props: Props) => {
           <View style={STYLES.textInputContainer}>
             <TextInput keyboardType='decimal-pad' style={STYLES.textInput} value={data?.y?.toString()}
               onChangeText={value => {
-                //@ts-ignore
-                setData({ ...data, y: parseFloat(value) })
+                setData({ ...data, y: value.length > 0 ? parseInt(value) : 0 })
               }} />
           </View>
         </View>
@@ -131,8 +145,7 @@ const Detail = (props: Props) => {
           <View style={STYLES.textInputContainer}>
             <TextInput keyboardType='decimal-pad' style={STYLES.textInput} value={data?.z?.toString()}
               onChangeText={value => {
-                //@ts-ignore
-                setData({ ...data, z: parseFloat(value) })
+                setData({ ...data, z: value.length > 0 ? parseInt(value) : 0 })
               }} />
           </View>
         </View>
@@ -143,8 +156,7 @@ const Detail = (props: Props) => {
           <View style={STYLES.textInputContainer}>
             <TextInput keyboardType='decimal-pad' style={STYLES.textInput} value={data?.distance?.toString()}
               onChangeText={value => {
-                //@ts-ignore
-                setData({ ...data, distance: parseFloat(value) })
+                setData({ ...data, distance: value.length > 0 ? parseInt(value) : 0 })
               }} />
           </View>
         </View>
@@ -153,8 +165,7 @@ const Detail = (props: Props) => {
           <View style={STYLES.textInputContainer}>
             <TextInput keyboardType='decimal-pad' style={STYLES.textInput} value={data?.floor?.toString()}
               onChangeText={value => {
-                //@ts-ignore
-                setData({ ...data, floor: parseFloat(value) })
+                setData({ ...data, floor: value.length > 0 ? parseInt(value) : 0 })
               }} />
           </View>
         </View>
@@ -184,26 +195,26 @@ const Detail = (props: Props) => {
           <TouchableOpacity style={STYLES.button}
             onPress={async () => {
               props.setOverlayLoading(true)
-              await updateDevice({
+              const req = {
                 deviceId: data?.deviceId ? data.deviceId : 0,
-                application: 19,
                 name: data?.name ? data.name : '',
                 model: 19,
                 serial: data?.serial ? data.serial : '',
                 mac: '',
-                region: 'Singapore',
-                longitude: 103.6602342,
-                latitude: 1.3548817,
-                floor: 0,
-                distance: 20,
+                region: data.region ? data.region : 'Singapore',
+                longitude: data?.longitude ? data.longitude : 103.6602342,
+                latitude: data?.latitude ? data.latitude : 103.6602342,
+                floor: data?.floor ? data.floor : 103.6602342,
+                distance: data?.distance ? data.distance : 103.6602342,
                 remark: '',
                 optional: "{}",
-                active: true,
+                active: data.active,
                 x: data?.x ? data.x : 0,
                 y: data?.y ? data.y : 0,
                 z: data?.z ? data.z : 0,
                 tags: []
-              })
+              }
+              await updateDevice(req)
               props.setOverlayLoading(false)
               props.navigation.goBack()
               props.route.params.doGoBack()
@@ -216,7 +227,6 @@ const Detail = (props: Props) => {
               onPress={async () => {
                 props.setOverlayLoading(true)
                 await createDevice({
-                  application: 19,
                   name: data?.name ? data.name : '',
                   model: 19,
                   serial: data?.serial ? data.serial : '',

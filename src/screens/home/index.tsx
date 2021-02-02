@@ -63,7 +63,7 @@ const Home = (props: Props) => {
     <>
       <SafeAreaView style={STYLES.supperContainer}>
         <View style={STYLES.container}>
-          <View style={{ width: windowWidth - 40, flexDirection: 'row', justifyContent: 'flex-end', paddingTop: 20 }}>
+          {/* <View style={{ width: windowWidth - 40, flexDirection: 'row', justifyContent: 'flex-end', paddingTop: 20 }}>
             <TouchableOpacity style={STYLES.button}
               onPress={() => {
                 props.navigation.navigate(SCREEN_DETAIL, { deviceId: '', title: 'Create sensor', doGoBack: () => { doGoBack() } })
@@ -71,9 +71,9 @@ const Home = (props: Props) => {
             >
               <Text style={STYLES.buttonText}>Create</Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
           <ScrollView showsVerticalScrollIndicator={false}
-            style={{ height: windowHeight - 200 }}
+            style={{ height: windowHeight - 160 }}
             refreshControl={
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }
